@@ -1,0 +1,70 @@
+buildscript {
+    ext {
+        flywayVersion = "8.0.0"
+    }
+}
+plugins {
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "org.flywaydb.flyway" version( "8.0.0")
+}
+ext{
+    mockitoVersion = '3.9.0'
+    flywayVersion = '8.0.0'
+    mapstructVersion = '1.4.0.Beta1'
+    h2Version ='1.4.196'
+}
+group = 'com.darcyxian'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+//flyway {
+//    locations = ["classpath:db/migration"]
+//    url="jdbc:postgresql://localhost:5432/postgres?currentSchema=restaurant"
+//    user="postgres"
+//    password="admin"
+//}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    runtimeOnly "com.h2database:h2:${h2Version}"
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+//apply plugin:'java'
+//jar {
+//    from{
+//        (configurations.runtime).collect{
+//            it.isDirectory() ? it : zipTree(it)
+//        }
+//    }
+//}
+

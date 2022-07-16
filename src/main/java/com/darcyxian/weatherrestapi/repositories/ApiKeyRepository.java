@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface ApiKeyRepository extends JpaRepository<ApiKeyEntity, Long> {
 
     Optional<ApiKeyEntity> findByKeyValue(String keyValue);
+    Optional<ApiKeyEntity> findById (long id);
 }

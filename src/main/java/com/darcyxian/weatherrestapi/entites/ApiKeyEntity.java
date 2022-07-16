@@ -1,10 +1,11 @@
 package com.darcyxian.weatherrestapi.entites;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 
 /**
  * Darcy Xian  15/7/22  8:27 am      weatherRestAPI
@@ -13,6 +14,8 @@ import java.math.BigInteger;
 @Getter
 @Setter
 @Table(name = "api_keys")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApiKeyEntity {
 
     @Id
@@ -26,7 +29,7 @@ public class ApiKeyEntity {
     private Integer countTimes;
 
     @Column(name = "refresh_time")
-    private BigInteger refreshTime;
+    private Long refreshTime;
 
 
 }

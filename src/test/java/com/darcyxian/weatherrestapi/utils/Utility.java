@@ -1,6 +1,7 @@
 package com.darcyxian.weatherrestapi.utils;
 
 import com.darcyxian.weatherrestapi.entites.ApiKeyEntity;
+import com.darcyxian.weatherrestapi.entites.WeatherEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,10 +20,13 @@ public class Utility {
         return apiKeyEntity;
     }
 
-
-
-
-
-
-
+    public WeatherEntity buildWeatherEntity(String cityName,
+                                            String countryName,
+                                            String weatherDes){
+        WeatherEntity weatherEntity = new WeatherEntity();
+        weatherEntity.setCityName(cityName);
+        weatherEntity.setCountryName(countryName);
+        weatherEntity.setWeatherDes(weatherDes);
+        return weatherEntity;
+    }
 }

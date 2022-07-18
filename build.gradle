@@ -59,12 +59,3 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-//apply plugin:'java'
-//jar {
-//    from{
-//        (configurations.runtime).collect{
-//            it.isDirectory() ? it : zipTree(it)
-//        }
-//    }
-//}
-

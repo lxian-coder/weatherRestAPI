@@ -34,7 +34,6 @@ public class WeatherDataService {
     private final WeatherMapper weatherMapper;
     @Value("${weathermap.service.key}")
     private String webMapKey;
-    private final String baseUrl = "https://api.openweathermap.org/data/2.5/weather";
 
     @SneakyThrows
     public void updateWeatherDB(String cityName, String countryName) {
@@ -56,6 +55,7 @@ public class WeatherDataService {
 
     @SneakyThrows
     public URI formUri(String cityName, String countryName) {
+        String baseUrl = "https://api.openweathermap.org/data/2.5/weather";
         HttpGet httpGet = new HttpGet(baseUrl);
         URI uri = new URIBuilder(httpGet.getURI())
                 .addParameter("q", cityName.concat(",").concat(countryName))
@@ -92,7 +92,7 @@ public class WeatherDataService {
     public WeatherDataDTO findWeatherData(String cityName, String countryName) {
         log.info("findWeatherData() started");
         WeatherDataDTO weatherDataDTO = weatherDataRepo.findByCityNameAndCountryName(cityName, countryName).map(
-                weatherDataEntity -> weatherMapper.fromEntity(weatherDataEntity)
+                weatherMapper::fromEntity
         ).orElseThrow(() -> {
             log.error("Can not find weather data in DB.");
             return new ResourceNotFoundException("Error, Can not find weather data in DB.");

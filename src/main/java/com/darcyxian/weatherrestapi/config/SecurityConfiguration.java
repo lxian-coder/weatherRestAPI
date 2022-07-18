@@ -56,7 +56,7 @@ public class SecurityConfiguration {
        return authentication -> {
             String principal = (String) authentication.getPrincipal();
             Optional<ApiKeyEntity> apiKeyEntityOp = apiKeyService.findByKeyValue(principal);
-            if(!apiKeyEntityOp.isPresent()){
+            if(apiKeyEntityOp.isEmpty()){
                 log.warn("Access is denied because API key provided by users is wrong.");
                 throw new BadCredentialsException("The API key is wrong.");
             }
@@ -69,7 +69,7 @@ public class SecurityConfiguration {
                 log.warn("Access is denied because API key has been used 5 times in one hout.");
                 throw new BadCredentialsException("Sorry, you can only query 5 times per hour.");
             }
-            if(refreshTime >= currentTime && keyBeUsedCount < 5){
+            if(refreshTime >= currentTime){
                 apiKeyService.updateCountTimes(apiKeyEntity.getId());
             }
             if(refreshTime < currentTime){
@@ -80,8 +80,7 @@ public class SecurityConfiguration {
             return authentication;
         };
     }
-
-};
+}
 
 
 

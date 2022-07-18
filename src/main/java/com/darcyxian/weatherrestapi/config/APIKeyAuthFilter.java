@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import java.io.PrintWriter;
 @AllArgsConstructor
 public class APIKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
 
-    private String principalRequestHeader;
+    private final String principalRequestHeader;
 
     @Override
     protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
@@ -36,7 +35,7 @@ public class APIKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
+                                              AuthenticationException failed) throws IOException {
         SecurityContextHolder.clearContext();
         this.logger.debug("Cleared security context due to exception", failed);
         request.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, failed);

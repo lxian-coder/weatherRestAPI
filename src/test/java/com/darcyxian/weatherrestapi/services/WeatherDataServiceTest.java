@@ -7,7 +7,6 @@ import com.darcyxian.weatherrestapi.mappers.WeatherMapper;
 import com.darcyxian.weatherrestapi.repositories.WeatherDataRepository;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.net.ssl.SSLSession;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
@@ -45,7 +43,6 @@ class WeatherDataServiceTest {
     private WeatherDataEntity weatherDataEntityTest;
     private WeatherDataEntity weatherDataEntityTest2;
     private WeatherDataDTO weatherDataDTOTest;
-    private WeatherDataDTO weatherDataDTOTest2;
     private String WEATHER_RESPONSE;
     private String TEST_CITY;
     private String TEST_COUNTRY;
@@ -82,7 +79,6 @@ class WeatherDataServiceTest {
         weatherDataEntityTest2.setCountryName(TEST_COUNTRY);
 
         weatherDataDTOTest = new WeatherDataDTO(TEST_CITY, TEST_COUNTRY, TEST_DES);
-        weatherDataDTOTest2 = new WeatherDataDTO(TEST_CITY, TEST_COUNTRY, TEST_DES2);
         uri = URI.create("testURI");
         response = new HttpResponse<>() {
             @Override
@@ -105,7 +101,7 @@ class WeatherDataServiceTest {
     }
 
     @Test
-    void shouldReturnURIWithParametersGivenCityAndCountryName() throws URISyntaxException {
+    void shouldReturnURIWithParametersGivenCityAndCountryName() {
         String expectUri = "https://api.openweathermap.org/data/2.5/weather?q=New+York%2CUS&appid";
         String formedUri = weatherDataService.formUri("New York", "US").toString();
         assertNotNull(formedUri);
@@ -136,7 +132,7 @@ class WeatherDataServiceTest {
     }
 
     @Test
-    void shouldReturnWeatherDescriptionGivenWeatherInfoString() throws JSONException {
+    void shouldReturnWeatherDescriptionGivenWeatherInfoString() {
         String res = weatherDataService.extractWeatherDes(WEATHER_RESPONSE);
         assertNotNull(res);
         assertEquals(TEST_DES, res);
@@ -182,15 +178,18 @@ class WeatherDataServiceTest {
 
     @Test
     void shouldSaveWeatherEntityGiveNoOldDataFound() {
+        //Given
         WeatherDataService weatherDataService1 = spy(weatherDataService);
-
         doReturn(uri).when(weatherDataService1).formUri(TEST_CITY, TEST_COUNTRY);
         doReturn(response).when(weatherDataService1).queryWeatherWebsite(uri);
         doReturn(TEST_DES2).when(weatherDataService1).extractWeatherDes(response.body());
         when(weatherDataRepo.findByCityNameAndCountryName(TEST_CITY, TEST_COUNTRY)).thenReturn(Optional.empty());
         when(weatherMapper.toEntity(any(WeatherDataDTO.class))).thenReturn(weatherDataEntityTest2);
+
+        //When
         weatherDataService1.updateWeatherDB(TEST_CITY, TEST_COUNTRY);
 
+        //Then
         verify(weatherDataService1, times(1)).formUri(TEST_CITY, TEST_COUNTRY);
         verify(weatherDataService1, times(1)).queryWeatherWebsite(uri);
         verify(weatherDataService1, times(1)).extractWeatherDes(response.body());
@@ -202,10 +201,14 @@ class WeatherDataServiceTest {
 
     @Test
     void shouldReturnWeatherDataEntityGivenItExist() {
+        //Given
         when(weatherDataRepo.findByCityNameAndCountryName(TEST_CITY, TEST_COUNTRY)).thenReturn(Optional.of(weatherDataEntityTest));
         when(weatherMapper.fromEntity(weatherDataEntityTest)).thenReturn(weatherDataDTOTest);
 
+        //When
         WeatherDataDTO weatherDataDTO = weatherDataService.findWeatherData(TEST_CITY, TEST_COUNTRY);
+
+        //Then
         assertNotNull(weatherDataDTO);
         assertEquals(TEST_DES, weatherDataDTO.getWeatherDescription());
         assertEquals(TEST_CITY, weatherDataDTO.getCityName());

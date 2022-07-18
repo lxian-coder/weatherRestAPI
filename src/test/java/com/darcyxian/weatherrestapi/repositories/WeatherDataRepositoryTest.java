@@ -1,7 +1,7 @@
 package com.darcyxian.weatherrestapi.repositories;
 
 import com.darcyxian.weatherrestapi.WeatherRestApiApplication;
-import com.darcyxian.weatherrestapi.entites.WeatherEntity;
+import com.darcyxian.weatherrestapi.entites.WeatherDataEntity;
 import com.darcyxian.weatherrestapi.utils.Utility;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,32 +32,32 @@ public class WeatherDataRepositoryTest {
     void shouldReturnWeatherEntityGivenWeatherEntityHasBeenSaved(){
         // Given
         // Create new weatherEntity
-        WeatherEntity weatherEntity = utility.buildWeatherEntity("testCity1","testCountry1","Cloud");
+        WeatherDataEntity weatherDataEntity = utility.buildWeatherEntity("testCity1","testCountry1","Cloud");
 
         // When
-        WeatherEntity returnedWeather = weatherDataRepo.save(weatherEntity);
+        WeatherDataEntity returnedWeather = weatherDataRepo.save(weatherDataEntity);
 
         // Then
         assertEquals("testCity1",returnedWeather.getCityName());
         assertEquals("testCountry1",returnedWeather.getCountryName());
-        assertEquals("Cloud",returnedWeather.getWeatherDes());
+        assertEquals("Cloud",returnedWeather.getWeatherDescription());
     }
 
     @Test
     void shouldReturnWeatherEntityGivenValidCityNameAndCountryName(){
         // Given
         // Create new weatherEntity
-        WeatherEntity weatherEntity = utility.buildWeatherEntity("testCity","testCountry","Sunshine");
-        weatherDataRepo.save(weatherEntity);
+        WeatherDataEntity weatherDataEntity = utility.buildWeatherEntity("testCity","testCountry","Sunshine");
+        weatherDataRepo.save(weatherDataEntity);
 
         // When
-        Optional<WeatherEntity> weatherEntityOp = weatherDataRepo.findByCityNameAndCountryName("testCity","testCountry");
+        Optional<WeatherDataEntity> weatherEntityOp = weatherDataRepo.findByCityNameAndCountryName("testCity","testCountry");
 
         // Then
         assertTrue(weatherEntityOp.isPresent());
         assertEquals("testCity",weatherEntityOp.get().getCityName());
         assertEquals("testCountry",weatherEntityOp.get().getCountryName());
-        assertEquals("Sunshine",weatherEntityOp.get().getWeatherDes());
+        assertEquals("Sunshine",weatherEntityOp.get().getWeatherDescription());
     }
 
 }

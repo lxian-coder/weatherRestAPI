@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "fb2f6116-57f8-40a2-8eb5-888957205011",
+		"name": "WeatherAPI",
+		"description": "used to test WeatherRestfulAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FindNewYorkWeather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/New York/US",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						"New York",
+						"US"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindLondonWeather",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/London/UK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						"London",
+						"UK"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MissingCountryName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/weather/London/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"weather",
+						"London",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "demoKey5",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-API-key",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

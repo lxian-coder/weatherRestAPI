@@ -21,8 +21,10 @@
 ### This is the springBoot based RESTful API. It supports the below functions:
 
 * Application support H2 in-mem DB.
+* API key auth ensures only legal users can access the app.
 * Provide current weather information of the city user searched.
-* API key security check
+* The application can get parameters from URL and then query the openweathermap.org website to get the current weather description which will be saved to the database or update the existed weather information record.
+* The newest weather description retrieved from the H2 database by the application will then be sent to users.
 * URL: /weather/{city name}/{country name}
 
 
@@ -45,13 +47,13 @@
 
 
 ## Advantages of this application
-* Hibernate builds the entity layer to connect database server
+* Hibernate builds the entity layer to connect the database server
 * Flyway prepared the initial data.
 * Spring Data JPA builds the repository layer (DAO)
-* Mapstruct used to map data between entities and dtos
+* Mapstruct used to map data between entities and dtos.
 * Mockito and MockMvc unit test service and controller layer
 * All the exceptions can be centrally handled in one place (GlobalExceptionHandler.java)
-* Lombok makes our life easierIt automatically generates getter,setter, constructor, hashcode, log etc.
-* Utilize Spring security to implement API keys authentication.
-* Dockerfile utilize multi-stage and put application files into docker instead of using a fat jar.
+* Lombok makes our life easier by automatically generating getter, setter, constructor, hashcode, log, etc.
+* Utilize Spring security to implement API key authentication.
+* Dockerfile utilizes multi-stage and puts application files into docker instead of using a fat jar.
 
